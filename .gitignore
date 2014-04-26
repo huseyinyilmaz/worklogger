@@ -52,3 +52,15 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 
+# secrets file
+worklogger/secrets.ini
+# emacs
+.\#*
+*~
+\#*\#
+
+# database file
+db.sqlite3
+
+# bower downloads
+core/static/bower_components/
