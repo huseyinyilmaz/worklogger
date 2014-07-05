@@ -1,0 +1,16 @@
+{% extends 'logs/base_log_archive.html' %}
+{% block links %}
+<div class="panel panel-default">
+  <div class="panel-heading">Months</div>
+  <div class="panel-body">
+    <ul class="list-group">
+  {% for date in date_list %}
+    <li class="list-group-item">
+      <a href="{% url 'logs-month' date.year date.month %}">{{ date.year}}/{{ date.month }}</a>
+    </li>
+  {% endfor %}
+    </ul>
+  </div>
+</div>
+
+{% endblock %}

@@ -24,4 +24,23 @@
               <li><a href="#">Last Month</a></li>
             </ul>
         </li>
+
+        <li class="nav-header">
+
+<div class="panel panel-default">
+  <div class="panel-heading">Years</div>
+  <div class="panel-body">
+
+    <ul class="list-group">
+  {% for date in date_list %}
+    <li class="list-group-item">
+      <a href="{% url 'logs-year' date.year %}">{{ date.year }}</a>
+    </li>
+  {% endfor %}
+    </ul>
+  </div>
+</div>
+
+
+        </li>
       </ul>

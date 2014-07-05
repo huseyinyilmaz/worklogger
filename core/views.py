@@ -1,7 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.views.generic.dates import DayArchiveView
+from django.views.generic.dates import ArchiveIndexView
 from django.views.generic.dates import MonthArchiveView
+from django.views.generic.dates import YearArchiveView
 from django.utils.decorators import method_decorator
 
 from logs.models import Log
@@ -19,6 +21,16 @@ class LoginRequiredMixin(object):
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(LoginRequiredMixin, self).dispatch(*args, **kwargs)
+
+
+class LogIndexArchiveView(ArchiveIndexView):
+    date_field = "start"
+    make_object_list = True
+    allow_future = True
+
+    def get_queryset(self):
+        qs = Log.objects.filter(user=self.request.user)
+        return qs
 
 
 class BaseLogArchiveMixin(LoginRequiredMixin):
@@ -59,3 +71,10 @@ class LogMonthArchiveView(BaseLogArchiveMixin, MonthArchiveView):
         def get_date_display(self, context):
             return '{year}/{month}'.format(year=self.get_year(),
                                            month=self.get_month().zfill(2))
+
+
+class LogYearArchiveView(BaseLogArchiveMixin, YearArchiveView):
+        date_name = 'Year'
+
+        def get_date_display(self, context):
+            return '{year}'.format(year=self.get_year())

@@ -1,1 +1,31 @@
 {% extends 'logs/base_log_archive.html' %}
+{% block links %}
+<div class="panel panel-default">
+  <div class="panel-heading">Months</div>
+  <div class="panel-body">
+    <ul class="list-group">
+    <li class="list-group-item">
+    <a href="{% url 'logs-year' month.year %}">Current Year ({{ month.year}})</a>
+    </li>
+
+      {% if previous_month %}
+      <li class="list-group-item">
+        <a href="{% url 'logs-month' previous_month.year previous_month.month %}">Previous month ({{previous_month.year}}/{{previous_month.month }})</a>
+      </li>
+      {% endif %}
+      {% if next_month %}
+      <li class="list-group-item">
+        <a href="{% url 'logs-month' next_month.year next_month.month %}">Next month ({{next_month.year}}/{{next_month.month }})</a>
+      </li>
+      {% endif %}
+
+  {% for date in date_list %}
+    <li class="list-group-item">
+      <a href="{% url 'logs-day' date.year date.month date.day%}">{{ date.year}}/{{ date.month }}/{{ date.day }}</a>
+    </li>
+  {% endfor %}
+    </ul>
+  </div>
+</div>
+
+{% endblock %}
