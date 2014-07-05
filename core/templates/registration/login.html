@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+{% if form.errors %}
+<div class="alert alert-danger" role="alert">Your username and password didn't match. Please try again.</div>
+{% endif %}
+
+<form method="post" action="{% url 'django.contrib.auth.views.login' %}" id="login_form" >
+  {% csrf_token %}
+
+<table>
+  <div class="form-group">
+  <label for="{{ form.username.id_for_label }}">{{ form.username.label_tag }}</label>
+  <input type="username"
+         class="form-control"
+         id="{{ form.username.auto_id }}"
+         placeholder="Enter username"
+         name="{{ form.username.name }}"/>
+  </div>
+
+  <div class="form-group">
+  <label for="{{ form.password.id_for_label }}">{{ form.password.label_tag }}</label>
+  <input type="password"
+         class="form-control"
+         id="{{ form.password.auto_id }}"
+         placeholder="Enter password"
+         name="{{ form.password.name }}"/>
+  </div>
+
+  <input type="hidden" name="next" value="{{ next }}" />
+
+  <button type="submit" class="btn btn-default">Submit</button>
+</form>
+{% endblock %}

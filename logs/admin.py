@@ -5,9 +5,9 @@ from logs.models import Job, Log
 class LogAdmin(admin.ModelAdmin):
     save_on_top = True
     save_as = True
-    date_hierarchy = 'day'
+    date_hierarchy = 'start'
 
-    list_display = ('user', 'day', 'start', 'finish', 'job')
+    list_display = ('user', 'start', 'finish', 'job')
 
     list_filter = ('user', 'job')
 

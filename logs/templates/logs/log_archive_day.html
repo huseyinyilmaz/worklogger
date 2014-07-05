@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<div class="panel panel-default">
+  <div class="panel-heading">{{day}}</div>
+  <div class="panel-body">
+    <!-- Table -->
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Job</th>
+          <th>Start</th>
+          <th>Finish</th>
+        </tr>
+      </thead>
+
+    {% for log in object_list %}
+      <tbody>
+        <tr>
+          <td>{{log.id}}</td>
+          <td>{{log.job}}</td>
+          <td>{{log.start}}</td>
+          <td>{{log.finish}}</td>
+        </tr>
+    {% endfor %}
+  </table>
+  </div>
+</div>
+
+<hr>
+<div class="panel panel-warning">
+  <div class="panel-heading">Debuging section</div>
+  <div class="panel-body">
+     day = {{day}}<br>
+     next_day = {{next_day}}<br>
+     previous_day = {{previous_day}}<br>
+     next_month = {{next_month}}<br>
+     previous_month = {{previous_month}}<br>
+     object_list = {{object_list}}<br>
+     is_paginated = {{is_paginated}}<br>
+  </div>
+</div>
+  <hr>
+
+{% endblock %}

@@ -24,17 +24,21 @@ class Log(models.Model):
     """
     user = models.ForeignKey(User)
     job = models.ForeignKey(Job)
-    day = models.DateField()
-    start = models.TimeField()
-    finish = models.TimeField()
+    start = models.DateTimeField()
+    finish = models.DateTimeField()
+    duration = models.IntegerField('minutes', default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def save(self, *args, **kwargs):
+        duration_seconds = (self.finish - self.start).total_seconds()
+        self.duration = duration_seconds
+        return super(Log, self).save(*args, **kwargs)
+
     class Meta:
-        ordering = ['user', '-day', '-start', '-finish']
+        ordering = ['user', '-start', '-finish']
 
     def __unicode__(self):
-        return u'Log for %s: %s at %s (%s-%s)' % (self.user,
-                                                  self.job,
-                                                  self.day,
-                                                  self.start,
-                                                  self.finish)
+        return u'Log for %s: %s at (%s-%s)' % (self.user,
+                                               self.job,
+                                               self.start,
+                                               self.finish)
