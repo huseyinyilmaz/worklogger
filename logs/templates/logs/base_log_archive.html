@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+<div class="panel panel-default">
+  <div class="panel-heading">Summary</div>
+  <div class="panel-body">
+    {{ date_name }}= {{ date_display }} <br>
+    Total duration = {{ total_duration }}
+  </div>
+</div>
+
+<hr>
+
+<div class="panel panel-default">
+  <div class="panel-heading">Monthly Job Summary</div>
+  <div class="panel-body">
+    <!-- Table -->
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Job</th>
+          <th>Total Duration</th>
+        </tr>
+      </thead>
+
+    {% for summary in job_summary %}
+      <tbody>
+        <tr>
+          <td>{{summary.job.name}}</td>
+          <td>{{summary.total_duration}}</td>
+        </tr>
+    {% endfor %}
+  </table>
+  </div>
+</div>
+
+
+<div class="panel panel-default">
+  <div class="panel-heading">Job Details</div>
+  <div class="panel-body">
+    <!-- Table -->
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Job</th>
+          <th>Start</th>
+          <th>Finish</th>
+          <th>Duration</th>
+        </tr>
+      </thead>
+
+    {% for log in object_list %}
+      <tbody>
+        <tr>
+          <td>{{log.id}}</td>
+          <td>{{log.job}}</td>
+          <td>{{log.start}}</td>
+          <td>{{log.finish}}</td>
+          <td>{{log.get_duration_display}}</td>
+        </tr>
+    {% endfor %}
+  </table>
+  </div>
+</div>
+<hr>
+
+
+<div class="panel panel-warning">
+  <div class="panel-heading">Debuging section</div>
+  <div class="panel-body">
+    is_paginated = {{is_paginated}}<br>
+    day = {{day}}<br>
+    month={{month}}
+    next_day = {{next_day}}<br>
+    previous_day = {{previous_day}}<br>
+    next_month = {{next_month}}<br>
+    previous_month = {{previous_month}}<br>
+    object_list = {{object_list}}<br>
+    job_summary = {{ job_summary }}<br>
+  </div>
+</div>
+ <hr>
+{% endblock %}

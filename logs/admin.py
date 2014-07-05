@@ -7,9 +7,9 @@ class LogAdmin(admin.ModelAdmin):
     save_as = True
     date_hierarchy = 'start'
 
-    list_display = ('user', 'start', 'finish', 'job')
+    list_display = ('user', 'start', 'finish', 'get_duration_display', 'job')
 
-    list_filter = ('user', 'job')
+    list_filter = ['user', 'job']
 
 
 class LogInline(admin.TabularInline):

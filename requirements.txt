@@ -1,4 +1,6 @@
 Django==1.6.3
+django-model-utils==2.0.3
+# development dependencies
 django-debug-toolbar==1.2
 django-extensions==1.3.3
 ipdb==0.8

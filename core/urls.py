@@ -13,5 +13,9 @@ urlpatterns = patterns(
     url(r'^$', views.index, name='core-index'),
     url(r'^logs/(?P<year>[0-9]{4})/(?P<month>[0-9]+)/(?P<day>[0-9]+)/$',
         views.LogDayArchiveView.as_view(),
-        name="log_day"),
+        name="logs-day"),
+    url(r'^logs/(?P<year>[0-9]{4})/(?P<month>[0-9]+)/$',
+        views.LogMonthArchiveView.as_view(),
+        name="logs-month"),
+
 )

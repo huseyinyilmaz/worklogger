@@ -1,24 +1,28 @@
 from django.db import models
+from model_utils.managers import PassThroughManager
+from model_utils.models import TimeStampedModel
+
 from accounts.models import User
+from core.utils import second_to_str
+from logs.managers import LogQuerySet
 # Create your models here.
 
 
-class Job(models.Model):
+class Job(TimeStampedModel):
     """
     Job that you spent time on
     """
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ('created_at', 'name')
+        ordering = ('created', 'name')
 
     def __unicode__(self):
         return self.name
 
 
-class Log(models.Model):
+class Log(TimeStampedModel):
     """
     Log for specific job.
     """
@@ -27,15 +31,19 @@ class Log(models.Model):
     start = models.DateTimeField()
     finish = models.DateTimeField()
     duration = models.IntegerField('minutes', default=0)
-    created_at = models.DateTimeField(auto_now_add=True)
+    objects = PassThroughManager.for_queryset_class(LogQuerySet)()
 
     def save(self, *args, **kwargs):
         duration_seconds = (self.finish - self.start).total_seconds()
         self.duration = duration_seconds
         return super(Log, self).save(*args, **kwargs)
 
+    def get_duration_display(self):
+        return second_to_str(self.duration)
+
     class Meta:
-        ordering = ['user', '-start', '-finish']
+        ordering = ['user', 'start', 'finish']
+        get_latest_by = "start"
 
     def __unicode__(self):
         return u'Log for %s: %s at (%s-%s)' % (self.user,
