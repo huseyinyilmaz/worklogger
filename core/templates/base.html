@@ -29,7 +29,18 @@
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
         <a class="navbar-brand" href="{% url 'core-index' %}">Huseyin's Worklogger</a>
+
+          <div class="btn-group">
+            <a href="{% url 'logs-log-create' %}" class="btn btn-success navbar-btn">Create Log</a>
+            {% if has_current_log %}
+              <a href="{%  url 'logs-log-update' current_log.id %}" class="btn btn-primary navbar-btn">Complete Log</a>
+            {% endif %}
+          </div>
+            <a href="{% url 'logs-jobs' %}" class="btn btn-default navbar-btn">Jobs</a>
+
+            <p class="navbar-text navbar-right">
         <a class="navbar-link navbar-right" href="{% url 'accounts-logout' %}">Logout</a>
+            </p>
       </div>
     </div>
 

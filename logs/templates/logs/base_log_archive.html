@@ -47,6 +47,7 @@
           <th>Start</th>
           <th>Finish</th>
           <th>Duration</th>
+          <th>Operations</th>
         </tr>
       </thead>
 
@@ -58,25 +59,14 @@
           <td>{{log.start}}</td>
           <td>{{log.finish}}</td>
           <td>{{log.get_duration_display}}</td>
+          <td>
+            <a href="{%  url 'logs-log-update' log.id %}" class="btn btn-primary">Edit</a>
+            <a href="{%  url 'logs-log-delete' log.id %}" class="btn btn-danger">Delete</a>
+          </td>
+
         </tr>
     {% endfor %}
   </table>
   </div>
 </div>
-<hr>
-<div class="panel panel-warning">
-  <div class="panel-heading">Debuging section</div>
-  <div class="panel-body">
-    is_paginated = {{is_paginated}}<br>
-    day = {{day}}<br>
-    month={{month}}
-    next_day = {{next_day}}<br>
-    previous_day = {{previous_day}}<br>
-    next_month = {{next_month}}<br>
-    previous_month = {{previous_month}}<br>
-    object_list = {{object_list}}<br>
-    job_summary = {{ job_summary }}<br>
-  </div>
-</div>
- <hr>
 {% endblock %}

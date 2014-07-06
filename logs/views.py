@@ -1,13 +1,19 @@
-from django.shortcuts import render
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
 from django.views.generic import CreateView
+from django.views.generic import DeleteView
+from django.views.generic import UpdateView
 from django.views.generic.dates import DayArchiveView
 from django.views.generic.dates import MonthArchiveView
 from django.views.generic.dates import YearArchiveView
-from core.viewutils import LoginRequiredMixin
+from django.views.generic import ListView
 
+from core.viewutils import LoginRequiredMixin
+from django.utils import timezone
 
 from logs.forms import LogForm
 from logs.models import Log
+from logs.models import Job
 # Create your views here.
 
 
@@ -57,21 +63,95 @@ class LogYearArchiveView(BaseLogArchiveMixin, YearArchiveView):
             return '{year}'.format(year=self.get_year())
 
 
-class CreateLogView(CreateView):
-    template_name = "log_form.html"
-    form = LogForm
+class DeleteLogView(DeleteView):
+    model = Log
+    template_name = 'logs/generic_delete.html'
+
+    def get_success_url(self):
+        dt = self.object.start
+        return reverse('logs-day',
+                       kwargs={'year': dt.year,
+                               'month': dt.month,
+                               'day': dt.day})
+
+
+class BaseLogMixin(LoginRequiredMixin):
+    model = Log
+    form_class = LogForm
+    template_name = 'logs/generic_form.html'
 
     def get_context_data(self, **kwargs):
-        context = super(CreateLogView, self).get_context_data(**kwargs)
+        context = super(BaseLogMixin, self).get_context_data(**kwargs)
+        context['form_title'] = self.form_title
         return context
-
-    def get_form_kwargs(self):
-        kwargs = super(CreateLogView, self).get_form_kwargs()
-        return kwargs
 
     def form_valid(self, form):
         instance = form.save()
-        # do a redirect here
-        return render(self.request,
-                      self.complete_template_name,
-                      {'pm': self.landing_page, 'lead': instance})
+        dt = instance.start
+        # # do a redirect here
+        return HttpResponseRedirect(reverse('logs-day',
+                                            kwargs={'year': dt.year,
+                                                    'month': dt.month,
+                                                    'day': dt.day}))
+
+
+class CreateLogView(BaseLogMixin, CreateView):
+    # template_name = "log_form.html"
+    form_title = 'Create Log'
+    template_name = 'logs/generic_form.html'
+
+    def get_initial(self):
+        initial = {'user': self.request.user,
+                   'start': timezone.now()}
+        try:
+            latest = Log.objects.latest()
+            initial['job'] = latest.job
+        except Log.DoesNotExist:
+            pass
+
+        return initial
+
+
+class UpdateLogView(BaseLogMixin, UpdateView):
+    form_title = 'Update Log'
+
+    def get_initial(self):
+        if self.object.finish:
+            result = {}
+        else:
+            result = {'finish': timezone.now()}
+
+        return result
+
+
+class BaseJobMixin(object):
+    model = Job
+    template_name = 'logs/generic_form.html'
+
+    def get_success_url(self):
+        return reverse('logs-jobs')
+
+    def get_context_data(self, **kwargs):
+        context = super(BaseJobMixin, self).get_context_data(**kwargs)
+        context['form_title'] = self.form_title
+        return context
+
+
+class CreateJobView(BaseJobMixin, CreateView):
+    form_title = 'Create Job'
+
+
+class UpdateJobView(BaseJobMixin, UpdateView):
+    form_title = 'Update Job'
+
+
+class DeleteJobView(DeleteView):
+    model = Job
+    template_name = 'logs/generic_delete.html'
+
+    def get_success_url(self):
+        return reverse('logs-jobs')
+
+
+class JobListView(ListView):
+    model = Job

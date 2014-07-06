@@ -1,5 +1,7 @@
 import datetime
 from django.db import models
+from django.utils import timezone
+
 from model_utils.managers import PassThroughManager
 from model_utils.models import TimeStampedModel
 
@@ -17,7 +19,7 @@ class Job(TimeStampedModel):
     description = models.TextField(blank=True, null=True)
 
     class Meta:
-        ordering = ('created', 'name')
+        ordering = ('-created', 'name')
 
     def __unicode__(self):
         return self.name
@@ -35,7 +37,7 @@ class Log(TimeStampedModel):
     objects = PassThroughManager.for_queryset_class(LogQuerySet)()
 
     def save(self, *args, **kwargs):
-        finish = self.finish or datetime.datetime.now()
+        finish = self.finish or timezone.now()
         duration_seconds = (finish - self.start).total_seconds()
         self.duration = duration_seconds
         return super(Log, self).save(*args, **kwargs)

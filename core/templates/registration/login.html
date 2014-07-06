@@ -8,8 +8,6 @@
 
 <form method="post" action="{% url 'django.contrib.auth.views.login' %}" id="login_form" >
   {% csrf_token %}
-
-<table>
   <div class="form-group">
   <label for="{{ form.username.id_for_label }}">{{ form.username.label_tag }}</label>
   <input type="username"

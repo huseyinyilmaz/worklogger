@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block sidebar %}
+<a href="{% url 'logs-job-create' %}" class="btn btn-success">Create Job</a>
+{% endblock %}
+
+{% block main %}
+<div class="panel panel-default">
+  <div class="panel-heading">Job List</div>
+  <div class="panel-body">
+
+    <!-- Table -->
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Job</th>
+          <th>Description</th>
+          <th>Operations</th>
+        </tr>
+      </thead>
+      <tbody>
+  {% for job in job_list %}
+    <tr>
+      <td>{{ job.id }}</td>
+      <td>{{ job.name }}</td>
+      <td>{{ job.description }}</td>
+      <td>
+        <a href="{%  url 'logs-job-update' job.id %}" class="btn btn-primary navbar-btn">Edit</a>
+        <a href="{%  url 'logs-job-delete' job.id %}" class="btn btn-danger">Delete</a>
+
+      </td>
+    </tr>
+  {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
