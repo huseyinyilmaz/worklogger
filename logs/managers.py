@@ -24,3 +24,6 @@ class LogQuerySet(QuerySet):
 
     def total_duration_display(self):
         return second_to_str(self.total_duration())
+
+    def unfinished(self):
+        return self.filter(finish__isnull=True)[0]

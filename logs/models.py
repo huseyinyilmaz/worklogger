@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 from model_utils.managers import PassThroughManager
 from model_utils.models import TimeStampedModel
@@ -29,12 +30,13 @@ class Log(TimeStampedModel):
     user = models.ForeignKey(User)
     job = models.ForeignKey(Job)
     start = models.DateTimeField()
-    finish = models.DateTimeField()
+    finish = models.DateTimeField(blank=True, null=True)
     duration = models.IntegerField('minutes', default=0)
     objects = PassThroughManager.for_queryset_class(LogQuerySet)()
 
     def save(self, *args, **kwargs):
-        duration_seconds = (self.finish - self.start).total_seconds()
+        finish = self.finish or datetime.datetime.now()
+        duration_seconds = (finish - self.start).total_seconds()
         self.duration = duration_seconds
         return super(Log, self).save(*args, **kwargs)
 

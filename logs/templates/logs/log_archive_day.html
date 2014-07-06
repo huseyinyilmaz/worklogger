@@ -1,25 +1,24 @@
 {% extends 'logs/base_log_archive.html' %}
-{% block links %}
-<div class="panel panel-default">
-  <div class="panel-heading">Links</div>
-  <div class="panel-body">
-    <ul class="list-group">
-      <li class="list-group-item">
-        <a href="{% url 'logs-month' day.year day.month %}">Current Month ({{ day.year}}/{{ day.month }})</a>
-      </li>
-      {% if previous_day %}
-      <li class="list-group-item">
-        <a href="{% url 'logs-day' previous_day.year previous_day.month previous_day.day %}">Previous day ({{previous_day.year}}/{{previous_day.month }}/{{previous_day.day}})</a>
-      </li>
-      {% endif %}
-      {% if next_day %}
-      <li class="list-group-item">
-        <a href="{% url 'logs-day' next_day.year next_day.month next_day.day %}">Next day ({{next_day.year}}/{{next_day.month }}/{{next_day.day}})</a>
-      </li>
-      {% endif %}
-
-    </ul>
-  </div>
-</div>
-
+{% block sidebar %}
+<ul class="nav">
+  <li>
+    <a href="{% url 'logs-month' day.year day.month %}">
+      <span class="glyphicon glyphicon-folder-open"></span>
+      Current Month ({{ day.year}}/{{ day.month }})</a>
+  </li>
+  {% if previous_day %}
+  <li>
+    <a href="{% url 'logs-day' previous_day.year previous_day.month previous_day.day %}">
+      <span class="glyphicon glyphicon-arrow-up"></span>
+      Previous day ({{previous_day.year}}/{{previous_day.month }}/{{previous_day.day}})</a>
+  </li>
+  {% endif %}
+  {% if next_day %}
+  <li>
+    <a href="{% url 'logs-day' next_day.year next_day.month next_day.day %}">
+      <span class="glyphicon glyphicon-arrow-down"></span>
+      Next day ({{next_day.year}}/{{next_day.month }}/{{next_day.day}})</a>
+  </li>
+  {% endif %}
+</ul>
 {% endblock %}
