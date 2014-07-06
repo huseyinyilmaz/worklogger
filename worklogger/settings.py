@@ -40,7 +40,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 DJANGO_APPS = (
-    'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -125,9 +124,6 @@ LOGIN_URL = '/accounts/login/'
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
-
-# Change user model
-AUTH_USER_MODEL = 'accounts.User'
 
 ###############################
 # DJANGO DEBUG TOOLBAR CONFIG #

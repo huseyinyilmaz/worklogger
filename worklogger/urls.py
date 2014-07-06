@@ -14,7 +14,6 @@ urlpatterns = patterns(
     # url(r'^blog/', include('blog.urls')),
     url(r'', include(core.urls)),
     url(r'^logs/', include(logs.urls)),
-    (r'^grappelli/', include('grappelli.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include(accounts.urls)),
 )

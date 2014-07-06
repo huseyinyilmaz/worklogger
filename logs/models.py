@@ -1,11 +1,10 @@
-import datetime
 from django.db import models
 from django.utils import timezone
 
 from model_utils.managers import PassThroughManager
 from model_utils.models import TimeStampedModel
 
-from accounts.models import User
+from django.contrib.auth.models import User
 from core.utils import second_to_str
 from logs.managers import LogQuerySet
 # Create your models here.
@@ -15,6 +14,7 @@ class Job(TimeStampedModel):
     """
     Job that you spent time on
     """
+    user = models.ForeignKey(User)
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
 

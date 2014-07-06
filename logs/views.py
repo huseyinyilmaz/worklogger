@@ -12,6 +12,7 @@ from core.viewutils import LoginRequiredMixin
 from django.utils import timezone
 
 from logs.forms import LogForm
+from logs.forms import JobForm
 from logs.models import Log
 from logs.models import Job
 # Create your views here.
@@ -126,6 +127,7 @@ class UpdateLogView(BaseLogMixin, UpdateView):
 
 class BaseJobMixin(object):
     model = Job
+    form_class = JobForm
     template_name = 'logs/generic_form.html'
 
     def get_success_url(self):
@@ -139,6 +141,9 @@ class BaseJobMixin(object):
 
 class CreateJobView(BaseJobMixin, CreateView):
     form_title = 'Create Job'
+
+    def get_initial(self):
+        return {'user': self.request.user}
 
 
 class UpdateJobView(BaseJobMixin, UpdateView):
@@ -154,4 +159,6 @@ class DeleteJobView(DeleteView):
 
 
 class JobListView(ListView):
-    model = Job
+    def get_queryset(self):
+        qs = Job.objects.filter(user=self.request.user)
+        return qs
