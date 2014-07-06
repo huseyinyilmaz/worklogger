@@ -34,7 +34,7 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
@@ -125,6 +125,7 @@ LOGIN_URL = '/accounts/login/'
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = 'static'
 ###############################
 # DJANGO DEBUG TOOLBAR CONFIG #
 ###############################
