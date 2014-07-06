@@ -8,6 +8,7 @@ class LogIndexArchiveView(LoginRequiredMixin, ArchiveIndexView):
     date_field = "start"
     make_object_list = True
     allow_future = True
+    allow_empty = True
 
     def get_queryset(self):
         qs = Log.objects.filter(user=self.request.user)
