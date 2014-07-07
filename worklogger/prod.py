@@ -1,4 +1,4 @@
-from worklogger.settings import *  # noqa
+from worklogger.base import *  # noqa
 
 
 ALLOWED_HOSTS.extend(['www.yilmazhuseyin.com',

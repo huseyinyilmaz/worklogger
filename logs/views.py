@@ -150,7 +150,7 @@ class UpdateJobView(BaseJobMixin, UpdateView):
     form_title = 'Update Job'
 
 
-class DeleteJobView(DeleteView):
+class DeleteJobView(LoginRequiredMixin, DeleteView):
     model = Job
     template_name = 'logs/generic_delete.html'
 
@@ -158,7 +158,7 @@ class DeleteJobView(DeleteView):
         return reverse('logs-jobs')
 
 
-class JobListView(ListView):
+class JobListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         qs = Job.objects.filter(user=self.request.user)
         return qs
