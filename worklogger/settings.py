@@ -176,12 +176,6 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'simple'
         },
-        'mail_admins': {
-            'level': 'WARNING',
-            'class': 'django.utils.log.AdminEmailHandler',
-            'formatter': 'verbose',
-            'filters': ['require_debug_false'],
-        },
         'file': {
             'level': 'WARNING',
             'class': 'logging.handlers.RotatingFileHandler',
@@ -205,10 +199,10 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': False,
         },
-        'django.db': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-            'propagate': False,
-            }
+        # 'django.db': {
+        #     'handlers': ['console'],
+        #     'level': 'DEBUG',
+        #     'propagate': False,
+        #     }
     }
 }

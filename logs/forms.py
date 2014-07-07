@@ -2,6 +2,16 @@ import floppyforms.__future__ as forms
 
 from logs.models import Log
 from logs.models import Job
+from django.utils.formats import get_format
+
+
+class SplitDateTimeWidgetNoSecond(forms.SplitDateTimeWidget):
+    def __init__(self, *args, **kwargs):
+        # '%H:%M'
+        time_format = get_format('TIME_INPUT_FORMATS')[2]
+        kwargs['time_format'] = time_format
+        return super(SplitDateTimeWidgetNoSecond, self).__init__(*args,
+                                                                 **kwargs)
 
 
 class LogForm(forms.ModelForm):
@@ -11,8 +21,8 @@ class LogForm(forms.ModelForm):
         widgets = {
             'user': forms.HiddenInput,
             'job': forms.Select,
-            'start': forms.SplitDateTimeWidget,
-            'finish': forms.SplitDateTimeWidget,
+            'start': SplitDateTimeWidgetNoSecond,
+            'finish': SplitDateTimeWidgetNoSecond,
             }
 
     def clean(self):
