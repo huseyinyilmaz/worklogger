@@ -144,7 +144,8 @@ DEBUG_TOOLBAR_CONFIG = {
 MIDDLEWARE_CLASSES += (
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     )
-
+# So it would work for production
+DEBUG_TOOLBAR_PATCH_SETTINGS = False
 
 #####################
 # LOG CONFIGURATION #
