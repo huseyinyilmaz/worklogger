@@ -30,7 +30,12 @@ class LogForm(forms.ModelForm):
         if (not data['finish'] and
             Log.objects.filter(user=data['user'],
                                finish__isnull=True).exists()):
-            raise forms.ValidationError('There is an already started job.')
+            log = Log.objects.filter(user=data['user'],
+                                     finish__isnull=True)[0]
+            # if instance that we are changing is already opened instance,
+            # do not raise validation error
+            if log != self.instance:
+                raise forms.ValidationError('There is an already started job.')
         return data
 
     def __init__(self, *args, **kwargs):
