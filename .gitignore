@@ -64,3 +64,6 @@ db.sqlite3
 
 # bower downloads
 core/static/bower_components/
+
+# collectstatic directory
+static/
