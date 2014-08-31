@@ -1,3 +1,4 @@
+from os.path import expanduser
 from worklogger.base import *  # noqa
 
 INSTALLED_APPS = INSTALLED_APPS + ('debug_toolbar',)
@@ -58,22 +59,32 @@ LOGGING = {
             'formatter': 'simple',
             'filename': expanduser('~/logs/worklogger.log'),
         },
-        # 'sentry': {
-        #     'level': 'WARNING',
-        #     'class':
-        #     'raven.contrib.django.raven_compat.handlers.SentryHandler',
-        #     'formatter': 'verbose',
-        # },
+
+        'sentry': {
+            'level': 'INFO',
+            'class':
+            'raven.contrib.django.raven_compat.handlers.SentryHandler',
+        },
     },
     'root': {
-        'handlers': ['console'],
+        'handlers': ['console', 'sentry'],
         'level': 'DEBUG',
         'propagate': False,
     },
     'loggers': {
         'django': {
-            'handlers': ['console'],
+            'handlers': ['console', 'sentry'],
             'level': 'DEBUG',
+            'propagate': False,
+        },
+        'raven': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
+            'propagate': False,
+        },
+        'sentry.errors': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
             'propagate': False,
         },
         # 'django.db': {
