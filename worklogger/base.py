@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 from os.path import exists
-from os.path import expanduser
 import ConfigParser
 
 
@@ -50,6 +49,7 @@ DJANGO_APPS = (
 
 THIRD_PARTY_APPS = (
     'floppyforms',
+    'raven.contrib.django.raven_compat',
     )
 
 LOCAL_APPS = (
@@ -125,3 +125,52 @@ LOGIN_URL = '/accounts/login/'
 STATIC_URL = '/static/'
 
 STATIC_ROOT = 'static'
+
+#  RAVEN_CONVIGURATION
+
+RAVEN_CONFIG = {
+    'dsn': secretkeys.get('raven', 'dns')
+}
+
+#  LOG CONFIG
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'root': {
+        'level': 'INFO',
+        'handlers': ['sentry'],
+    },
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+    },
+    'handlers': {
+        'sentry': {
+            'level': 'INFO',
+            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        }
+    },
+    'loggers': {
+        'django.db.backends': {
+            'level': 'ERROR',
+            'handlers': ['console'],
+            'propagate': False,
+        },
+        'raven': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
+            'propagate': False,
+        },
+        'sentry.errors': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
+            'propagate': False,
+        },
+    },
+}
