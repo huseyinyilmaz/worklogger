@@ -54,7 +54,7 @@ LOGGING = {
             'formatter': 'simple'
         },
         'file': {
-            'level': 'WARNING',
+            'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
             'formatter': 'simple',
             'filename': expanduser('~/logs/worklogger.log'),
