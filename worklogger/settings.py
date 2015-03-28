@@ -60,14 +60,14 @@ LOGGING = {
             'filename': expanduser('~/logs/worklogger.log'),
         },
 
-        # 'sentry': {
-        #     'level': 'INFO',
-        #     'class':
-        #     'raven.contrib.django.raven_compat.handlers.SentryHandler',
-        # },
+        'sentry': {
+            'level': 'INFO',
+            'class':
+            'raven.contrib.django.raven_compat.handlers.SentryHandler',
+        },
     },
     'root': {
-        'handlers': ['console'],
+        'handlers': ['console', 'sentry'],
         'level': 'DEBUG',
         'propagate': False,
     },

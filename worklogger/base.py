@@ -54,7 +54,7 @@ DJANGO_APPS = (
 
 THIRD_PARTY_APPS = (
     'floppyforms',
-#    'raven.contrib.django.raven_compat',
+    'raven.contrib.django.raven_compat',
     )
 
 LOCAL_APPS = (
