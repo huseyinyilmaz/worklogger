@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 from os.path import exists
-import ConfigParser
+
+import configparser
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -19,14 +20,18 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 secrets_file = os.path.join(BASE_DIR, 'worklogger', 'secrets.ini')
 assert exists(secrets_file), ('You need secrets.ini file '
                               'inside worklogger directory')
-secretkeys = ConfigParser.ConfigParser()
+
+# disable interpolation
+# We have % character on ini file
+secretkeys = configparser.ConfigParser(interpolation=None)
 secretkeys.read(secrets_file)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = secretkeys.get('django', 'secret-key')
+
+SECRET_KEY = secretkeys['django']['secret-key']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -49,7 +54,7 @@ DJANGO_APPS = (
 
 THIRD_PARTY_APPS = (
     'floppyforms',
-    'raven.contrib.django.raven_compat',
+#    'raven.contrib.django.raven_compat',
     )
 
 LOCAL_APPS = (
@@ -129,5 +134,5 @@ STATIC_ROOT = 'static'
 #  RAVEN_CONVIGURATION
 
 RAVEN_CONFIG = {
-    'dsn': secretkeys.get('raven', 'dns')
+    'dsn': secretkeys['raven']['dns']
 }

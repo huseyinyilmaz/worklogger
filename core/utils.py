@@ -1,9 +1,9 @@
 def second_to_str(seconds):
     seconds = int(seconds)
-    minutes = seconds / 60
+    minutes = seconds // 60
     seconds = seconds % 60
     if minutes >= 60:
-        hours = minutes / 60
+        hours = minutes // 60
         minutes = minutes % 60
     else:
         hours = 0

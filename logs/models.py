@@ -20,7 +20,7 @@ class Job(TimeStampedModel):
     class Meta:
         ordering = ('-created', 'name')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
@@ -48,7 +48,7 @@ class Log(TimeStampedModel):
         ordering = ['user', 'start', 'finish']
         get_latest_by = "start"
 
-    def __unicode__(self):
+    def __str__(self):
         return u'Log for %s: %s at (%s-%s)' % (self.user,
                                                self.job,
                                                self.start,

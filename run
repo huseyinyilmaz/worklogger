@@ -1,0 +1,15 @@
+#!/bin/bash
+# -*- tab-width:4;indent-tabs-mode:nil -*-
+# ex: ts=4 sw=4 et
+
+case "$1" in
+     getdb)
+        scp site:/srv/worklogger/project/db.sqlite3 .
+        ;;
+     server)
+        python manage.py runserver_plus 0.0.0.0:8000
+        ;;
+     *)
+        echo 'Usage: ./run sync'
+        ;;
+esac
