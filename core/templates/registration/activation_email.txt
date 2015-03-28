@@ -1,0 +1,6 @@
+Thank you for completing registration for {{site}}
+
+In order to activate your account please use following link:
+http://{{ site }}/accounts/activate/{{ activation_key }}/
+
+Please Note that this activation email will be expired in {{ expiration_days }} days.

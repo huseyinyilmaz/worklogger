@@ -60,37 +60,49 @@ LOGGING = {
             'filename': expanduser('~/logs/worklogger.log'),
         },
 
-        'sentry': {
-            'level': 'INFO',
-            'class':
-            'raven.contrib.django.raven_compat.handlers.SentryHandler',
-        },
+
     },
     'root': {
-        'handlers': ['console', 'sentry'],
+        'handlers': ['console', 'file'],
         'level': 'DEBUG',
         'propagate': False,
     },
     'loggers': {
         'django': {
-            'handlers': ['console'],
+            'handlers': ['console', 'file'],
             'level': 'DEBUG',
-            'propagate': False,
-        },
-        'raven': {
-            'level': 'DEBUG',
-            'handlers': ['console'],
             'propagate': False,
         },
         'sentry.errors': {
             'level': 'DEBUG',
-            'handlers': ['console'],
+            'handlers': ['console', 'file'],
             'propagate': False,
         },
-        # 'django.db': {
-        #     'handlers': ['console'],
-        #     'level': 'DEBUG',
-        #     'propagate': False,
-        #     }
     }
 }
+
+
+# if raven is provided add it to handlers
+if 'raven' in secretkeys:
+    #  RAVEN_CONVIGURATION
+
+    RAVEN_CONFIG = {
+        'dsn': secretkeys['raven']['dns']
+    }
+
+    INSTALLED_APPS += ('raven.contrib.django.raven_compat', )
+
+    # Add root sentry logger to root handler
+    LOGGING['handlers']['sentry'] = {
+        'level': 'INFO',
+        'class':
+        'raven.contrib.django.raven_compat.handlers.SentryHandler',
+    }
+
+    LOGGING['root']['handlers'].append('sentry')
+
+    LOGGING['loggers']['raven'] = {
+        'level': 'DEBUG',
+        'handlers': ['console', 'file'],
+        'propagate': False,
+    }

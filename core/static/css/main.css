@@ -8,3 +8,7 @@ body {
   padding: 40px 15px;
   /* text-align: center; */
 }
+
+.form-container {
+    padding: 15px;
+}

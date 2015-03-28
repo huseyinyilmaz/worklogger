@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="jumbotron">
+        <h1>Activation is complete</h1>
+        <p>Thank you for activating your acount. You can use your account to login to system.</p>
+        <p><a class="btn btn-primary btn-lg" href="{% url 'accounts-logout' %}" role="button">Login</a></p>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="jumbotron">
+        <h1>Activation key is invalid</h1>
+        <p>It seems like activation link has been already used or it is invalid. Please make sure to use complete activation url. You can always try to activate your acount second time.</p>
+        <p><a class="btn btn-primary btn-lg" href="{% url 'registration_register' %}" role="button">Register</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

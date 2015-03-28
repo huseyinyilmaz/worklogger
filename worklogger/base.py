@@ -53,8 +53,8 @@ DJANGO_APPS = (
 )
 
 THIRD_PARTY_APPS = (
+    'registration',
     'floppyforms',
-    'raven.contrib.django.raven_compat',
     )
 
 LOCAL_APPS = (
@@ -131,8 +131,21 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = 'static'
 
-#  RAVEN_CONVIGURATION
+# REGISTRATION
 
-RAVEN_CONFIG = {
-    'dsn': secretkeys['raven']['dns']
-}
+# REGISTRATION_FORM = 'registration.forms.RegistrationFormUniqueEmail'
+ACCOUNT_ACTIVATION_DAYS = 30
+REGISTRATION_OPEN = True
+
+# EMAIL BACKEND
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+DEFAULT_FROM_EMAIL='Huseyin Yilmaz <huseyin@yilmazhuseyin.com>'
+
+# EMAIL_CONFIGURATION
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = secretkeys['email']['email']
+EMAIL_HOST_PASSWORD = secretkeys['email']['password']
+EMAIL_PORT = 587
