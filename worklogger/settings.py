@@ -106,3 +106,10 @@ if 'raven' in secretkeys:
         'handlers': ['console', 'file'],
         'propagate': False,
     }
+
+
+#####################
+# Numerics Settings #
+#####################
+NUMERICS_SALT = "NUMERICS_SALT#@_!345"
+NUMERICS_KEY = "2jXtBABHbx9mL6iF0smC3lnREHPK40NRAX5-VYrgO1U="

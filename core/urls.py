@@ -11,4 +11,6 @@ urlpatterns = patterns(
     # url(r'^$', 'worklogger.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
     url(r'^$', views.LogIndexArchiveView.as_view(), name='core-index'),
+    url(r'^numerics.json$', views.numerics, name='core-numerics'),
+
 )

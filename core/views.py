@@ -1,7 +1,10 @@
+import json
 from django.views.generic.dates import ArchiveIndexView
 
 from core.viewutils import LoginRequiredMixin
 from logs.models import Log
+
+from django.http import HttpResponse
 
 
 class LogIndexArchiveView(LoginRequiredMixin, ArchiveIndexView):
@@ -13,3 +16,16 @@ class LogIndexArchiveView(LoginRequiredMixin, ArchiveIndexView):
     def get_queryset(self):
         qs = Log.objects.filter(user=self.request.user)
         return qs
+
+
+def numerics(request):
+    response = {
+        'postfix': 'Unit',
+        'data': {
+            'value': 123,
+        }
+    }
+    import ipdb; ipdb.set_trace()
+
+    return HttpResponse(json.dumps(response),
+                        content_type='application/json')

@@ -9,7 +9,10 @@ case "$1" in
      server)
         python manage.py runserver_plus 0.0.0.0:8000
         ;;
+     shell)
+        python manage.py shell_plus
+        ;;
      *)
-        echo 'Usage: ./run sync'
+        echo 'Usage: ./run server|shell|getdb'
         ;;
 esac

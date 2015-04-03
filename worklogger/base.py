@@ -149,3 +149,8 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = secretkeys['email']['email']
 EMAIL_HOST_PASSWORD = secretkeys['email']['password']
 EMAIL_PORT = 587
+
+# NUMERICS SETTINGS
+NUMERICS_ENABLED = True
+NUMERICS_SERIALIZER_BACKEND = 'numerics.serializers.CryptoSerializer'
+NUMERICS_SECRET_KEY = secretkeys['numerics']['secret-key']

@@ -1,5 +1,8 @@
+import datetime
+
 from django.db.models.query import QuerySet
 from django.db.models import Sum
+from django.utils import timezone
 
 from core.utils import second_to_str
 
@@ -25,5 +28,14 @@ class LogQuerySet(QuerySet):
     def total_duration_display(self):
         return second_to_str(self.total_duration())
 
-    def unfinished(self):
-        return self.filter(finish__isnull=True)[0]
+    def by_day(self, day):
+        if not isinstance(day, datetime.datetime):
+            raise Exception('day must be a datetime.datetime object')
+        day = timezone.localtime(day)
+        day = datetime.datetime(day.year, day.month, day.day,
+                                tzinfo=day.tzinfo)
+        since = day
+        until = day + datetime.timedelta(days=1)
+
+        return self.filter(start__gte=since,
+                           start__lt=until)
