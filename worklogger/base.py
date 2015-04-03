@@ -154,3 +154,4 @@ EMAIL_PORT = 587
 NUMERICS_ENABLED = True
 NUMERICS_SERIALIZER_BACKEND = 'numerics.serializers.CryptoSerializer'
 NUMERICS_SECRET_KEY = secretkeys['numerics']['secret-key']
+NUMERICS_SALT = secretkeys['numerics']['salt']
