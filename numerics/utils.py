@@ -14,7 +14,7 @@ def get_fernet():
     """
 
     if _FERNET_KEY not in _CACHE:
-        key = bytes(settings.NUMERICS_KEY, _FERNET_ENCODING)
+        key = bytes(settings.NUMERICS_SECRET_KEY, _FERNET_ENCODING)
         _CACHE[_FERNET_KEY] = Fernet(key)
 
     return _CACHE[_FERNET_KEY]
