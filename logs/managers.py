@@ -5,6 +5,7 @@ from django.db.models import Sum
 from django.utils import timezone
 
 from core.utils import second_to_str
+from core.utils import move_by_month
 
 
 class LogQuerySet(QuerySet):
@@ -28,6 +29,9 @@ class LogQuerySet(QuerySet):
     def total_duration_display(self):
         return second_to_str(self.total_duration())
 
+    def by_timedelta(self, start, timedelta):
+        """Returns log objects that started in given timedelta"""
+
     def by_day(self, day):
         if not isinstance(day, datetime.datetime):
             raise Exception('day must be a datetime.datetime object')
@@ -36,6 +40,22 @@ class LogQuerySet(QuerySet):
                                 tzinfo=day.tzinfo)
         since = day
         until = day + datetime.timedelta(days=1)
+
+        return self.filter(start__gte=since,
+                           start__lt=until)
+
+
+    def by_month(self, month):
+        if not isinstance(month, datetime.datetime):
+            raise Exception('month must be a datetime.datetime object')
+        month = timezone.localtime(month)
+        since = datetime.datetime(month.year, month.month, 1,
+                                  tzinfo=month.tzinfo)
+
+        until = datetime.datetime(month.year,
+                                  move_by_month(month.month, 1),
+                                  1,  # day
+                                  tzinfo=month.tzinfo)
 
         return self.filter(start__gte=since,
                            start__lt=until)

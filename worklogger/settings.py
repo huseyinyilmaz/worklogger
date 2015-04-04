@@ -94,7 +94,7 @@ if 'raven' in secretkeys:
 
     # Add root sentry logger to root handler
     LOGGING['handlers']['sentry'] = {
-        'level': 'INFO',
+        'level': 'WARNING',
         'class':
         'raven.contrib.django.raven_compat.handlers.SentryHandler',
     }

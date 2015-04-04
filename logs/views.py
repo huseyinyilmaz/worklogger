@@ -22,39 +22,6 @@ from numerics.api import EndPointResponse
 # Create your views here.
 
 
-def last_day_hours(user):
-    latest_log = user.log_set.latest()
-    latest_day = user.log_set.by_day(latest_log.start)
-    duration = latest_day.total_duration()
-    # check if there is any unfinished logs
-    logs = user.log_set.filter(finish__isnull=True)[:1]
-    # if there is an unfinished log and unfinished log has the same date
-    # is latest_log add unfinished log to result
-    if logs and logs[0].start.date() == latest_log.start.date():
-        duration += logs[0].get_duration()
-    latest_day_display = str(timezone.localtime(latest_log.start).date())
-    response = EndPointResponse(latest_day_display, second_to_str(duration))
-    return response
-
-
-def is_working(user):
-    logs = user.log_set.filter(finish__isnull=True)[:1]
-    if logs:
-        log = logs[0]
-        result = EndPointResponse(log.get_duration_display(),
-                                  'Working')
-    else:
-        log = user.log_set.latest()
-        result = EndPointResponse(str(log.start.date()),
-                                  'Not Working')
-
-    return result
-
-
-register('is-working', is_working)
-register('last-day-hours', last_day_hours)
-
-
 class BaseLogArchiveMixin(LoginRequiredMixin):
     date_field = "start"
     make_object_list = True
@@ -199,3 +166,54 @@ class JobListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         qs = Job.objects.filter(user=self.request.user)
         return qs
+
+#####################
+# NUMERIC ENDPOINTS #
+#####################
+
+def last_day_hours(user):
+    latest_log = user.log_set.latest()
+    latest_day = user.log_set.by_day(latest_log.start)
+    duration = latest_day.total_duration()
+    # check if there is any unfinished logs
+    logs = user.log_set.filter(finish__isnull=True)[:1]
+    # if there is an unfinished log and unfinished log has the same date
+    # is latest_log add unfinished log to result
+    if logs and logs[0].start.date() == latest_log.start.date():
+        duration += logs[0].get_duration()
+    latest_day_display = str(timezone.localtime(latest_log.start).date())
+    response = EndPointResponse(latest_day_display, second_to_str(duration))
+    return response
+
+
+def last_month_hours(user):
+    latest_log = user.log_set.latest()
+    latest_month = user.log_set.by_month(latest_log.start)
+    duration = latest_month.total_duration()
+    # check if there is any unfinished logs
+    logs = user.log_set.filter(finish__isnull=True)[:1]
+    # if there is an unfinished log and unfinished log has the same date
+    # is latest_log add unfinished log to result
+    if logs and logs[0].start.date() == latest_log.start.date():
+        duration += logs[0].get_duration()
+    latest_day_display = str(timezone.localtime(latest_log.start).date())
+    response = EndPointResponse(latest_day_display, second_to_str(duration))
+    return response
+
+
+def is_working(user):
+    logs = user.log_set.filter(finish__isnull=True)[:1]
+    if logs:
+        log = logs[0]
+        result = EndPointResponse(log.get_duration_display(),
+                                  'Working')
+    else:
+        log = user.log_set.latest()
+        result = EndPointResponse(str(log.start.date()),
+                                  'Not Working')
+
+    return result
+
+register('last-day-hours', last_day_hours)
+register('last-month-hours', last_month_hours)
+register('is-working', is_working)
