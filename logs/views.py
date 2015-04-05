@@ -201,19 +201,19 @@ def last_month_hours(user):
     return response
 
 
-def is_working(user):
+def current_job(user):
     logs = user.log_set.filter(finish__isnull=True)[:1]
     if logs:
         log = logs[0]
         result = EndPointResponse(log.get_duration_display(),
-                                  'Working')
+                                  log.job.name)
     else:
         log = user.log_set.latest()
-        result = EndPointResponse(str(log.start.date()),
+        result = EndPointResponse(str(timezone.localtime(log.start).date()),
                                   'Not Working')
 
     return result
 
 register('last-day-hours', last_day_hours)
 register('last-month-hours', last_month_hours)
-register('is-working', is_working)
+register('current-job', current_job)
