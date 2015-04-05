@@ -1,14 +1,16 @@
 """View implementations for numeric source."""
 import json
 import logging
-from django.http import HttpResponse
 from django.http import Http404
+from django.http import HttpResponse
 from django.views.generic import View
 from django.conf import settings
 from djangonumerics.api import get_endpoint_urls
 from djangonumerics.api import get_serializer
 from djangonumerics.forms import EndPointForm
+from djangonumerics.exceptions import ResponseException
 from djangonumerics.serializers import SerializerException
+from djangonumerics.responses import BaseResponse
 from django.shortcuts import render
 
 logger = logging.getLogger()
@@ -40,17 +42,23 @@ class IndexView(View):
             except SerializerException:
                 logger.exception('Cannot deserialize')
                 raise Http404()
+            try:
+                endpoint_response = endpoint.func(user,
+                                                  *endpoint.args,
+                                                  **endpoint.kwargs)
+                if not isinstance(endpoint_response, BaseResponse):
+                    raise ResponseException(
+                        'Endpoint Response Must be one of the '
+                        'django numeric response types. {typ} found instead.'
+                        '({val})'
+                        .format(typ=type(endpoint_response),
+                                val=endpoint_response))
+                response = endpoint_response.to_http_response()
+            except ResponseException as e:
+                response = HttpResponse(json.dumps({'success': False,
+                                                    'errors': e.args}),
+                                        content_type='application/json')
 
-            res = endpoint.func(user, *endpoint.args, **endpoint.kwargs)
-            res = {
-                'postfix': res.postfix,
-                'data': {
-                    'value': res.value,
-                }
-            }
-
-            response = HttpResponse(json.dumps(res),
-                                    content_type='application/json')
         else:
             endpoint_urls = get_endpoint_urls(request.user)
 

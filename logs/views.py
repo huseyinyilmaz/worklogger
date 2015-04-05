@@ -19,7 +19,7 @@ from logs.models import Log
 from logs.models import Job
 
 from djangonumerics.api import register
-from djangonumerics.api import EndPointResponse
+from djangonumerics import LabelResponse
 # Create your views here.
 
 
@@ -235,7 +235,7 @@ def last_day_hours(user):
     try:
         latest_log = user.log_set.latest()
     except Log.DoesNotExist:
-        return EndPointResponse('', 'No Data Available')
+        return LabelResponse('No Data Available')
     latest_day = user.log_set.by_day(latest_log.start)
     duration = latest_day.total_duration()
     # check if there is any unfinished logs
@@ -245,8 +245,8 @@ def last_day_hours(user):
     if logs and logs[0].start.date() == latest_log.start.date():
         duration += logs[0].get_duration()
     latest_day_display = str(timezone.localtime(latest_log.start).date())
-    response = EndPointResponse(latest_day_display, second_to_str(duration))
-    return response
+    return LabelResponse(second_to_str(duration),
+                         latest_day_display)
 
 
 def previous_month_hours(user):
@@ -258,7 +258,7 @@ def previous_month_hours(user):
     if len(months) == 2:
         month = months[1]
     else:
-        return EndPointResponse('', 'No Data Available')
+        return LabelResponse('No Data Available')
 
     previous_month = user.log_set.by_month(month)
     duration = previous_month.total_duration()
@@ -271,8 +271,7 @@ def previous_month_hours(user):
         duration += logs[0].get_duration()
 
     postfix = timezone.localtime(previous_log.start).strftime('%B %Y')
-    response = EndPointResponse(postfix, second_to_str(duration))
-    return response
+    return LabelResponse(second_to_str(duration), postfix)
 
 
 def last_month_hours(user):
@@ -291,7 +290,7 @@ def last_month_hours(user):
     if logs and logs[0].start.date() == latest_log.start.date():
         duration += logs[0].get_duration()
     postfix = timezone.localtime(latest_log.start).strftime('%B %Y')
-    response = EndPointResponse(postfix, second_to_str(duration))
+    response = LabelResponse(second_to_str(duration), postfix)
     return response
 
 
@@ -304,14 +303,15 @@ def current_job(user):
     logs = user.log_set.filter(finish__isnull=True)[:1]
     if logs:
         log = logs[0]
-        result = EndPointResponse(log.get_duration_display(),
-                                  log.job.name)
+        result = LabelResponse(log.job.name,
+                               log.get_duration_display())
     else:
         log = user.log_set.latest()
-        result = EndPointResponse(str(timezone.localtime(log.start).date()),
-                                  'Not Working')
+        result = LabelResponse('Not Working',
+                               str(timezone.localtime(log.start).date()))
 
     return result
+
 
 register('last-day-hours', last_day_hours)
 register('last-month-hours', last_month_hours)

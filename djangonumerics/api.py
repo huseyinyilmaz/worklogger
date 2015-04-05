@@ -17,8 +17,6 @@ EndPoint = namedtuple('EndPoint', ['name',
                                    'code', 'cache_timeout', 'func',
                                    'args', 'kwargs'])
 
-EndPointResponse = namedtuple('EndpointResponse', ['postfix', 'value'])
-
 # return an endpoint that is assign to given code.
 get_endpoint = _CODE_ENDPOINT_MAP.get
 # return the endpoint that is assign to given name
