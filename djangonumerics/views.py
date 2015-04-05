@@ -5,10 +5,11 @@ from django.http import HttpResponse
 from django.http import Http404
 from django.views.generic import View
 from django.conf import settings
-from numerics.api import get_endpoint_urls
-from numerics.api import get_serializer
-from numerics.forms import EndPointForm
-from numerics.serializers import SerializerException
+from djangonumerics.api import get_endpoint_urls
+from djangonumerics.api import get_serializer
+from djangonumerics.forms import EndPointForm
+from djangonumerics.serializers import SerializerException
+from django.shortcuts import render
 
 logger = logging.getLogger()
 
@@ -26,7 +27,7 @@ class IndexView(View):
     def get(self, request):
         """Return endpoint data."""
         enabled = getattr(settings,
-                          'NUMERICS_ENABLED',
+                          'DJANGO_NUMERICS_ENABLED',
                           True)
         if not enabled:
             raise Http404()
@@ -48,11 +49,12 @@ class IndexView(View):
                 }
             }
 
-            response = json.dumps(res)
-
+            response = HttpResponse(json.dumps(res),
+                                    content_type='application/json')
         else:
             endpoint_urls = get_endpoint_urls(request.user)
-            response = json.dumps(endpoint_urls)
 
-        return HttpResponse(response,
-                            content_type='application/json')
+            response = render(self.request, 'djangonumerics/index.html',
+                              {'endpoint_urls': endpoint_urls})
+
+        return response

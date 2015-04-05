@@ -83,7 +83,7 @@ LOGGING = {
 
 
 # if raven is provided add it to handlers
-if 'raven' in secretkeys:
+if 'raven' in secretkeys and not DEBUG:
     #  RAVEN_CONVIGURATION
 
     RAVEN_CONFIG = {

@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url
 
-from numerics import views
+from djangonumerics import views
 
 urlpatterns = patterns(
     '',
@@ -8,5 +8,5 @@ urlpatterns = patterns(
     # url(r'^$', 'worklogger.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
-    url(r'^$', views.IndexView.as_view(), name='numerics-index'),
+    url(r'^$', views.IndexView.as_view(), name='django-numerics-index'),
 )

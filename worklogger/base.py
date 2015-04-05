@@ -55,6 +55,7 @@ DJANGO_APPS = (
 THIRD_PARTY_APPS = (
     'registration',
     'floppyforms',
+    'djangonumerics',
     )
 
 LOCAL_APPS = (
@@ -141,7 +142,7 @@ REGISTRATION_OPEN = True
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-DEFAULT_FROM_EMAIL='Huseyin Yilmaz <huseyin@yilmazhuseyin.com>'
+DEFAULT_FROM_EMAIL = 'Huseyin Yilmaz <huseyin@yilmazhuseyin.com>'
 
 # EMAIL_CONFIGURATION
 EMAIL_USE_TLS = True
@@ -151,7 +152,8 @@ EMAIL_HOST_PASSWORD = secretkeys['email']['password']
 EMAIL_PORT = 587
 
 # NUMERICS SETTINGS
-NUMERICS_ENABLED = True
-NUMERICS_SERIALIZER_BACKEND = 'numerics.serializers.CryptoSerializer'
-NUMERICS_SECRET_KEY = secretkeys['numerics']['secret-key']
-NUMERICS_SALT = secretkeys['numerics']['salt']
+DJANGO_NUMERICS_ENABLED = True
+DJANGO_NUMERICS_SERIALIZER_BACKEND = \
+    'djangonumerics.serializers.CryptoSerializer'
+DJANGO_NUMERICS_SECRET_KEY = secretkeys['numerics']['secret-key']
+DJANGO_NUMERICS_SALT = secretkeys['numerics']['salt']
