@@ -270,8 +270,8 @@ def previous_month_hours(user):
     if logs and logs[0].start.date() == previous_log.start.date():
         duration += logs[0].get_duration()
 
-    latest_day_display = str(timezone.localtime(previous_log.start).date())
-    response = EndPointResponse(latest_day_display, second_to_str(duration))
+    postfix = timezone.localtime(previous_log.start).strftime('%B %Y')
+    response = EndPointResponse(postfix, second_to_str(duration))
     return response
 
 
@@ -290,8 +290,8 @@ def last_month_hours(user):
     # is latest_log add unfinished log to result
     if logs and logs[0].start.date() == latest_log.start.date():
         duration += logs[0].get_duration()
-    latest_day_display = str(timezone.localtime(latest_log.start).date())
-    response = EndPointResponse(latest_day_display, second_to_str(duration))
+    postfix = timezone.localtime(latest_log.start).strftime('%B %Y')
+    response = EndPointResponse(postfix, second_to_str(duration))
     return response
 
 
