@@ -60,10 +60,10 @@ worklogger/secrets.ini
 \#*\#
 
 # database file
-db.sqlite3
+/db.sqlite3
 
 # bower downloads
-core/static/bower_components/
+/core/static/bower_components/
 
 # collectstatic directory
-static/
+/static/
