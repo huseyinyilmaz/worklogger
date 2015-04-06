@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 from os.path import exists
+from os.path import expanduser
 
 import configparser
 
@@ -157,3 +158,88 @@ DJANGO_NUMERICS_SERIALIZER_BACKEND = \
     'djangonumerics.serializers.CryptoSerializer'
 DJANGO_NUMERICS_SECRET_KEY = secretkeys['numerics']['secret-key']
 DJANGO_NUMERICS_SALT = secretkeys['numerics']['salt']
+
+
+#####################
+# LOG CONFIGURATION #
+#####################
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': ('%(levelname)s %(asctime)s %(module)s '
+                       '%(process)d %(thread)d %(message)s')
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
+    'handlers': {
+        'null': {
+            'level': 'DEBUG',
+            'class': 'django.utils.log.NullHandler',
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'formatter': 'simple',
+            'filename': expanduser('~/logs/worklogger.log'),
+        },
+
+
+    },
+    'root': {
+        'handlers': ['console', 'file'],
+        'level': 'DEBUG',
+        'propagate': False,
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'sentry.errors': {
+            'level': 'DEBUG',
+            'handlers': ['console', 'file'],
+            'propagate': False,
+        },
+    }
+}
+
+
+# if raven is provided add it to handlers
+if 'raven' in secretkeys and not DEBUG:
+    #  RAVEN_CONVIGURATION
+
+    RAVEN_CONFIG = {
+        'dsn': secretkeys['raven']['dns']
+    }
+
+    INSTALLED_APPS += ('raven.contrib.django.raven_compat', )
+
+    # Add root sentry logger to root handler
+    LOGGING['handlers']['sentry'] = {
+        'level': 'WARNING',
+        'class':
+        'raven.contrib.django.raven_compat.handlers.SentryHandler',
+    }
+
+    LOGGING['root']['handlers'].append('sentry')
+
+    LOGGING['loggers']['raven'] = {
+        'level': 'DEBUG',
+        'handlers': ['console', 'file'],
+        'propagate': False,
+    }

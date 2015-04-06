@@ -41,7 +41,7 @@ def get_serializer():
     return serializer
 
 
-def register(name, func, args=None, kwargs=None, cache_timeout=60):
+def register(name, func, args=None, kwargs=None, cache_timeout=0):
     """Register given name and function."""
     if not args:
         args = []

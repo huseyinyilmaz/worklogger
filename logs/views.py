@@ -315,5 +315,6 @@ def current_job(user):
 
 register('last-day-hours', last_day_hours)
 register('last-month-hours', last_month_hours)
-register('previous-month-hours', previous_month_hours)
+register('previous-month-hours', previous_month_hours,
+         cache_timeout=60*60)  # one hour
 register('current-job', current_job)

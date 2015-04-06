@@ -1,4 +1,3 @@
-from os.path import expanduser
 from worklogger.base import *  # noqa
 
 INSTALLED_APPS = INSTALLED_APPS + ('debug_toolbar',)
@@ -23,86 +22,18 @@ MIDDLEWARE_CLASSES += (
     )
 
 
-#####################
-# LOG CONFIGURATION #
-#####################
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': ('%(levelname)s %(asctime)s %(module)s '
-                       '%(process)d %(thread)d %(message)s')
-        },
-        'simple': {
-            'format': '%(levelname)s %(message)s'
-        },
-    },
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
-        }
-    },
-    'handlers': {
-        'null': {
-            'level': 'DEBUG',
-            'class': 'django.utils.log.NullHandler',
-        },
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'simple'
-        },
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'formatter': 'simple',
-            'filename': expanduser('~/logs/worklogger.log'),
-        },
-
-
-    },
-    'root': {
-        'handlers': ['console', 'file'],
-        'level': 'DEBUG',
-        'propagate': False,
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console', 'file'],
-            'level': 'DEBUG',
-            'propagate': False,
-        },
-        'sentry.errors': {
-            'level': 'DEBUG',
-            'handlers': ['console', 'file'],
-            'propagate': False,
-        },
+# Do not actually cache. (For development only)
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
     }
 }
 
 
-# if raven is provided add it to handlers
-if 'raven' in secretkeys and not DEBUG:
-    #  RAVEN_CONVIGURATION
-
-    RAVEN_CONFIG = {
-        'dsn': secretkeys['raven']['dns']
-    }
-
-    INSTALLED_APPS += ('raven.contrib.django.raven_compat', )
-
-    # Add root sentry logger to root handler
-    LOGGING['handlers']['sentry'] = {
-        'level': 'WARNING',
-        'class':
-        'raven.contrib.django.raven_compat.handlers.SentryHandler',
-    }
-
-    LOGGING['root']['handlers'].append('sentry')
-
-    LOGGING['loggers']['raven'] = {
-        'level': 'DEBUG',
-        'handlers': ['console', 'file'],
-        'propagate': False,
-    }
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.memcached.PyLibMCCache',
+#         'LOCATION': '127.0.0.1:11211',
+#         'KEY_PREFIX': 'worklogger',
+#     }
+# }
