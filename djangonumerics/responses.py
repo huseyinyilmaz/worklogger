@@ -24,7 +24,8 @@ class BaseResponse:
             self.data = form.cleaned_data
         else:
             raise ResponseException('Cannot parse answer.',
-                                    form.errors)
+                                    {'data': data,
+                                     'errors': form.errors})
 
     def response(self):
         """Return a json serializable object."""

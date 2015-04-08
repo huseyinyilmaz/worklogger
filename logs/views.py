@@ -318,9 +318,9 @@ def current_job(user):
 
 def total_users(user):
     """Return total number of users."""
-    user_count = User.objects.filter(active=True).count()
+    user_count = User.objects.filter(is_active=True).count()
 
-    return NumberResponse('Total number of users', user_count)
+    return NumberResponse(user_count, 'Total number of users')
 
 
 register('total-users', total_users)
