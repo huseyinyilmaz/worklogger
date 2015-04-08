@@ -1,4 +1,6 @@
 """View implementations for log app."""
+
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.views.generic import CreateView
@@ -20,6 +22,7 @@ from logs.models import Job
 
 from djangonumerics.api import register
 from djangonumerics import LabelResponse
+from djangonumerics import NumberResponse
 # Create your views here.
 
 
@@ -313,6 +316,14 @@ def current_job(user):
     return result
 
 
+def total_users(user):
+    """Return total number of users."""
+    user_count = User.objects.filter(active=True).count()
+
+    return NumberResponse('Total number of users', user_count)
+
+
+register('total-users', total_users)
 register('last-day-hours', last_day_hours)
 register('last-month-hours', last_month_hours)
 register('previous-month-hours', previous_month_hours,
