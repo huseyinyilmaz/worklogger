@@ -323,9 +323,9 @@ def total_users(user):
     return NumberResponse(user_count, 'Total number of users')
 
 
-register('total-users', total_users)
-register('last-day-hours', last_day_hours)
-register('last-month-hours', last_month_hours)
-register('previous-month-hours', previous_month_hours,
+register('total-users', total_users, NumberResponse)
+register('last-day-hours', last_day_hours, LabelResponse)
+register('last-month-hours', last_month_hours, LabelResponse)
+register('previous-month-hours', previous_month_hours, LabelResponse,
          cache_timeout=60*60)  # one hour
-register('current-job', current_job)
+register('current-job', current_job, LabelResponse)
