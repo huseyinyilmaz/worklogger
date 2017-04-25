@@ -1,0 +1,19 @@
+{
+  "name": "worklogger",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jquery": "~2.1.0",
+    "backbone": "~1.1.0",
+    "underscore": "~1.5.2",
+    "bootstrap": "~3.2.0",
+    "json2": "latest",
+    "mustache": "latest"
+  }
+}

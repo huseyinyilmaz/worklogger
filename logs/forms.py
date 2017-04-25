@@ -54,6 +54,7 @@ class LogForm(forms.ModelForm):
 class JobForm(forms.ModelForm):
     class Meta:
         model = Job
+        fields = "__all__"
         widgets = {
             'user': forms.HiddenInput,
             }

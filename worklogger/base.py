@@ -156,6 +156,7 @@ EMAIL_PORT = 587
 DJANGO_NUMERICS_ENABLED = True
 DJANGO_NUMERICS_SERIALIZER_BACKEND = \
     'djangonumerics.serializers.CryptoSerializer'
+
 DJANGO_NUMERICS_SECRET_KEY = secretkeys['numerics']['secret-key']
 DJANGO_NUMERICS_SALT = secretkeys['numerics']['salt']
 
@@ -181,10 +182,6 @@ LOGGING = {
         }
     },
     'handlers': {
-        'null': {
-            'level': 'DEBUG',
-            'class': 'django.utils.log.NullHandler',
-        },
         'console': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',

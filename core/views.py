@@ -25,7 +25,6 @@ def numerics(request):
             'value': 123,
         }
     }
-    import ipdb; ipdb.set_trace()
 
     return HttpResponse(json.dumps(response),
                         content_type='application/json')
