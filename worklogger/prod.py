@@ -3,6 +3,8 @@ from worklogger.base import *  # noqa
 DEBUG = False
 TEMPLATE_DEBUG = False
 
+LOGGING['handlers']['file']['filename'] = expanduser('/var/log/worklogger_application.log') # noqa
+
 ALLOWED_HOSTS.extend(['www.yilmazhuseyin.com', # noqa
                       'worklogger.yilmazhuseyin.com'])
 
