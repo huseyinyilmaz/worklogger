@@ -9,7 +9,6 @@ django-registration-redux==1.1
 django-numerics==0.2.0
 pytz==2015.2
 raven==5.2.0
-pylibmc==1.4.1  # memcached client
 
 # develpment dependencies
 ipdb==0.8
