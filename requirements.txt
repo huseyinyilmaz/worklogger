@@ -9,7 +9,7 @@ django-registration-redux==1.1
 django-numerics==0.2.0
 pytz==2015.2
 raven==5.2.0
-
+uwsgi
 # develpment dependencies
 ipdb==0.8
 ipython==3.0.0
